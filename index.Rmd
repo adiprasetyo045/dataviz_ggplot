@@ -92,11 +92,55 @@ View (lizard)
 ###Membuat Grafik dari Data CSV
 
 ```{r}
+#plot titik dasar
 ggplot(lizard, aes (x= total_length, y= weight)) +
   geom_point()
   labs(title ="plot titik", x = "total_length", y = "weight")
   theme_dark()
 ```
+```{r}
+#plot titik dengan jitter
+library(ggplot2)
+ggplot(lizard, aes (x= total_length, y= weight)) +
+  geom_jitter()
+  labs(title ="plot titik - titik lizard", x = "total_length", y = "common_name")
+```
+```{r}
+#histogram untuk total length
+library (ggplot2)
+ggplot(lizard, aes (x= total_length)) +
+  geom_histogram() +
+  labs(title ="plot titik - titik lizard", x = "total_length", y = "common_name")
+```
+```{r}
+#bar plot untuk common name
+library (ggplot2)
+ggplot(lizard, aes (y = common_name)) +
+  geom_bar() +
+  labs(title ="plot titik - titik lizard", x = "total_length", y = "common_name")
+```
+```{r}
+#Histogram untuk Weight dengan Kustomisasi
+library (ggplot2)
+ggplot(lizard, aes (x=weight)) +
+  geom_histogram(color= "orange",fill="magenta",size = 2, shape=16,linetype="dotted") +
+labs(title ="dinding lizard", x = "weight", y = "count")
+```
+```{r}
+#plot titik dasar
+ggplot(lizard, aes (x= total_length, y= weight)) +
+  geom_point(color= "blue", size = 2,shape= 16) +
+  labs(x = "total_length", y = "weight")
+```
+# Membuat plot dengan warna berbeda berdasarkan common_name
+```{r}
+#Plot Titik dengan Warna Berdasarkan Common Name
+ggplot(lizard, aes (x= total_length, y= weight,color=common_name)) +
+  geom_point(size = 2,shape= 16) +
+  labs(x = "total_length", y = "weight", color="common name")
+```
+
+
 
 # Referensi
 
