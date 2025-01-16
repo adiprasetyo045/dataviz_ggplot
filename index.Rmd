@@ -98,6 +98,7 @@ ggplot(lizard, aes (x= total_length, y= weight)) +
   labs(title ="plot titik", x = "total_length", y = "weight")
   theme_dark()
 ```
+
 ```{r}
 #plot titik dengan jitter
 library(ggplot2)
@@ -105,6 +106,7 @@ ggplot(lizard, aes (x= total_length, y= weight)) +
   geom_jitter()
   labs(title ="plot titik - titik lizard", x = "total_length", y = "common_name")
 ```
+
 ```{r}
 #histogram untuk total length
 library (ggplot2)
@@ -112,6 +114,7 @@ ggplot(lizard, aes (x= total_length)) +
   geom_histogram() +
   labs(title ="plot titik - titik lizard", x = "total_length", y = "common_name")
 ```
+
 ```{r}
 #bar plot untuk common name
 library (ggplot2)
@@ -119,6 +122,7 @@ ggplot(lizard, aes (y = common_name)) +
   geom_bar() +
   labs(title ="plot titik - titik lizard", x = "total_length", y = "common_name")
 ```
+
 ```{r}
 #Histogram untuk Weight dengan Kustomisasi
 library (ggplot2)
@@ -126,13 +130,14 @@ ggplot(lizard, aes (x=weight)) +
   geom_histogram(color= "orange",fill="magenta",size = 2, shape=16,linetype="dotted") +
 labs(title ="dinding lizard", x = "weight", y = "count")
 ```
+
 ```{r}
 #plot titik dasar
 ggplot(lizard, aes (x= total_length, y= weight)) +
   geom_point(color= "blue", size = 2,shape= 16) +
   labs(x = "total_length", y = "weight")
 ```
-# Membuat plot dengan warna berbeda berdasarkan common_name
+
 ```{r}
 #Plot Titik dengan Warna Berdasarkan Common Name
 ggplot(lizard, aes (x= total_length, y= weight,color=common_name)) +
@@ -140,6 +145,105 @@ ggplot(lizard, aes (x= total_length, y= weight,color=common_name)) +
   labs(x = "total_length", y = "weight", color="common name")
 ```
 
+```{r}
+#Load packages
+library(gapminder)
+library(ggplot2)
+library(gganimate)
+```
+
+```{r}
+#import data
+library(gapminder)
+data<-gapminder
+data
+```
+
+```{r}
+#membuat plot dasar statis
+library(gapminder)
+library(ggplot2)
+gapminder_plot <- ggplot(
+  gapminder, 
+  aes(x = gdpPercap, y=lifeExp)
+  ) +
+  geom_point(alpha = 0.6) +
+  scale_x_log10() +
+  labs(x = "GDP per capita", y = "Life expectancy")
+gapminder_plot    
+```
+
+```{r}
+#menambahkan elemen ('aes')
+gapminder_plot <- ggplot(
+  gapminder, 
+  aes(x = gdpPercap, y=lifeExp, size = pop, colour = continent)
+  ) +
+  geom_point(alpha = 0.6) +
+  scale_x_log10() +
+  scale_color_viridis_d(option = "viridis") +
+  labs(x = "GDP per capita", y = "Life expectancy")
+gapminder_plot
+```
+##menambahkan efek transisi menggunakan gganimate
+```{r}
+library(ggplot2)
+library(gganimate)
+library(gapminder)
+gapminder_plot <- ggplot(gapminder, aes(x = gdpPercap, y = lifeExp, size = pop, color = continent)) +
+  geom_point(alpha = 0.7, show.legend = TRUE) +
+  scale_x_log10() +
+  labs(
+    x = "GDP per Capita (log scale)",
+    y = "Life Expectancy",
+    title = "Year: {frame_time}",
+    subtitle = "Bubble size represents population",
+    color = "Continent",
+    size = "Population"
+  ) +
+  theme_minimal()
+```
+```{r}
+# 1. Transisi waktu dengan animasi sederhana
+animated_plot1 <- gapminder_plot + 
+  transition_time(year) +
+  labs(title = "Year: {frame_time}")
+animate(animated_plot1, nframes = 200, fps = 20)
+
+```
+```{r}
+# 2. Animasi dengan facet_wrap berdasarkan kontinen
+animated_plot2 <- gapminder_plot + 
+  facet_wrap(~continent) +
+  transition_time(year) +
+  labs(title = "Year: {frame_time}")
+animate(animated_plot2, nframes = 200, fps = 20)
+
+```
+```{r}
+# 3. Animasi dengan view_follow untuk fokus pada sumbu tetap
+animated_plot3 <- gapminder_plot + 
+  transition_time(year) +
+  labs(title = "Year: {frame_time}") +
+  view_follow(fixed_y = TRUE)
+animate(animated_plot3, nframes = 200, fps = 20)
+```
+```{r}
+# 4. Animasi dengan efek shadow_wake
+animated_plot4 <- gapminder_plot + 
+  transition_time(year) +
+  labs(title = "Year: {frame_time}") +
+  shadow_wake(wake_length = 0.1, alpha = FALSE)
+animate(animated_plot4, nframes = 200, fps = 20)
+```
+```{r}
+# 5. Animasi dengan efek shadow_mark
+animated_plot5 <- gapminder_plot + 
+  transition_time(year) +
+  labs(title = "Year: {frame_time}") +
+  shadow_mark(alpha = 0.3, size = 0.5)
+animate(animated_plot5, nframes = 200, fps = 20)
+```
 
 
 # Referensi
